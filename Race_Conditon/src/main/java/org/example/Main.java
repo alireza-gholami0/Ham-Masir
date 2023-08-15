@@ -23,11 +23,21 @@ public class Main {
             accounts.add(account);
         }
         reader = new CSVReader(new FileReader("Transactions.csv"));
-        ExecutorService executer = Executors.newFixedThreadPool(10);
+        ExecutorService executer = Executors.newFixedThreadPool(100);
         while ((record = reader.readNext()) != null){
             record[2] = record[2].replaceAll(",","");
             executer.execute(new Transaction(accounts.get(Integer.parseInt(record[0])-1),accounts.get(Integer.parseInt(record[1])-1),Long.parseLong(record[2])));
         }
-        accounts.forEach(x-> System.out.println(x.getBalance()));
+        executer.shutdown();
+        if (executer.isShutdown()) {
+            accounts.forEach(x -> {
+                System.out.println("ID:" + x.getID());
+                System.out.println("Name:" + x.getAccountName());
+                System.out.println("Initial Balance:" + x.getInitialBalance());
+                System.out.println("ّFinal Balance:" + x.getBalance());
+                System.out.println("Balance Changes:" + (x.getBalance() - x.getInitialBalance()));
+                System.out.println("----------------");
+            });
+        }
     }
 }
