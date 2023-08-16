@@ -1,25 +1,32 @@
 package org.example;
 
-public record Transaction(Account source, Account destination, long amount) implements Runnable {
-    private void reduce(){
-        synchronized (source){
-            source.setBalance(source.getBalance()-amount);
-        }
+public class Transaction implements Runnable{
+    private final Account source;
+    private final Account destination;
+    private final long amount;
+
+    public Transaction(Account source, Account destination, long amount) {
+        this.source = source;
+        this.destination = destination;
+        this.amount = amount;
     }
-    private void add(){
-        synchronized (destination){
-            destination.setBalance(destination.getBalance()+amount);
-        }
-    }
+
     @Override
     public void run() {
-        reduce();
-        add();
-        System.out.println(Thread.currentThread());
-//        try {
-//            Thread.sleep(100000);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
+        source.reduce(amount);
+        destination.add(amount);
     }
+
+    public Account getSource() {
+        return source;
+    }
+
+    public Account getDestination() {
+        return destination;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
 }

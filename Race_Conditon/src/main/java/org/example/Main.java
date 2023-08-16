@@ -22,6 +22,7 @@ public class Main {
             Account account = new Account(Integer.parseInt(record[0]),record[1],Long.parseLong(record[2]));
             accounts.add(account);
         }
+        accounts.sort((x,y)-> (x.getID() > y.getID() ? 1:-1));
         reader = new CSVReader(new FileReader("Transactions.csv"));
         ExecutorService executer = Executors.newFixedThreadPool(100);
         while ((record = reader.readNext()) != null){
@@ -30,14 +31,7 @@ public class Main {
         }
         executer.shutdown();
         if (executer.isShutdown()) {
-            accounts.forEach(x -> {
-                System.out.println("ID:" + x.getID());
-                System.out.println("Name:" + x.getAccountName());
-                System.out.println("Initial Balance:" + x.getInitialBalance());
-                System.out.println("ّFinal Balance:" + x.getBalance());
-                System.out.println("Balance Changes:" + (x.getBalance() - x.getInitialBalance()));
-                System.out.println("----------------");
-            });
+            accounts.forEach(x-> System.out.println(x.toString()));
         }
     }
 }

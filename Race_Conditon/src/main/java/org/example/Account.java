@@ -5,7 +5,8 @@ public class Account {
     private String accountName;
     private long balance;
     private long initialBalance;
-    public Account(int ID, String accountName, long balance){
+
+    public Account(int ID, String accountName, long balance) {
         this.ID = ID;
         this.accountName = accountName;
         this.balance = balance;
@@ -30,5 +31,25 @@ public class Account {
 
     public long getInitialBalance() {
         return initialBalance;
+    }
+    public void reduce(long amount){
+        synchronized (this){
+            this.setBalance(this.getBalance()-amount);
+        }
+    }
+    public void add(long amount){
+        synchronized (this){
+            this.setBalance(this.getBalance()+amount);
+        }
+    }
+    @Override
+    public String toString() {
+        String output = "";
+        output += "ID: " + this.getID() + "\n";
+        output += "Name: " + this.getAccountName() + "\n";
+        output += "Initial Balance: " + this.getInitialBalance() + "\n";
+        output += "Final Balance: " + this.getBalance() + "\n";
+        output += "Balance Changes: " + (this.getBalance() - this.getInitialBalance()) + "\n";
+        return output;
     }
 }
