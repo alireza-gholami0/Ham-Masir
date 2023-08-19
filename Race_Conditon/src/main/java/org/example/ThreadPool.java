@@ -27,9 +27,10 @@ public class ThreadPool {
         }
     }
 
-    public void shutdown() {
+    public void shutdown() throws InterruptedException {
         for (WorkerThread thread : threads) {
             thread.interrupt();
+            thread.join();
         }
     }
 

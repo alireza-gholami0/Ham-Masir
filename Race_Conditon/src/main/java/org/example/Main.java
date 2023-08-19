@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 public class Main {
-    public static void main(String[] args) throws IOException, CsvValidationException {
+    public static void main(String[] args) throws IOException, CsvValidationException, InterruptedException {
         // Create a CSVReader object to read the file
         CSVReader reader = new CSVReader(new FileReader("Accounts.csv"));
         List<Account> accounts = new ArrayList<>();
