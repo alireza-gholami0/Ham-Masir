@@ -20,6 +20,10 @@ public class RestaurantController {
     }
     @GetMapping("/menu/{name}")
     public List<FoodResponse> getMenu(@PathVariable String name){
-        return restaurantService.getRestaurantMenu(new RestaurantRequest(name));
+        return restaurantService.getRestaurantMenu(name);
+    }
+    @PostMapping("/add")
+    public void add(@RequestBody RestaurantRequest request){
+        restaurantService.addRestaurant(request);
     }
 }
