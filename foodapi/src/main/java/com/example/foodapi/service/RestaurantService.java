@@ -61,4 +61,16 @@ public class RestaurantService {
         }
         else throw new RuntimeException("User not found");
     }
+
+    public void deleteRestaurant(String email, String name) {
+        User user = userRepository.getUserByEmail(email);
+        Restaurant restaurant = restaurantRepository.findByName(name);
+        if (user != null && restaurant != null){
+            if (user.getRole().getName().equals("OWNER") && restaurant.getOwner().equals(user)){
+                restaurantRepository.delete(restaurant);
+            }
+            else throw new RuntimeException("You do not have access to this section");
+        }
+        else throw new RuntimeException("User or Restaurant not found");
+    }
 }

@@ -26,4 +26,8 @@ public class RestaurantController {
     public void add(@RequestBody RestaurantRequest request){
         restaurantService.addRestaurant(request);
     }
+    @DeleteMapping("/delete/{email}/{name}")
+    public void delete(@PathVariable String email, @PathVariable String name){
+        restaurantService.deleteRestaurant(email,name);
+    }
 }
