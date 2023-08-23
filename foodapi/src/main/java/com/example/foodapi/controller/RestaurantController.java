@@ -1,11 +1,11 @@
 package com.example.foodapi.controller;
 
+import com.example.foodapi.payload.FoodResponse;
+import com.example.foodapi.payload.RestaurantRequest;
 import com.example.foodapi.payload.RestaurantResponse;
 import com.example.foodapi.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,5 +17,9 @@ public class RestaurantController {
     @GetMapping("/getall")
     public List<RestaurantResponse> getAll(){
         return restaurantService.getAllRestaurant();
+    }
+    @GetMapping("/menu/{name}")
+    public List<FoodResponse> getMenu(@PathVariable String name){
+        return restaurantService.getRestaurantMenu(new RestaurantRequest(name));
     }
 }
