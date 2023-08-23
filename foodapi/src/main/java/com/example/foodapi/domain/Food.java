@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 public class Food {
@@ -17,4 +20,7 @@ public class Food {
     @ManyToOne
     @JsonIgnore
     private Restaurant restaurant;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<OrderFood> orderFoods = new ArrayList<>();
 }
