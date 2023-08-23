@@ -1,5 +1,6 @@
 package com.example.foodapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,5 +15,6 @@ public class Food {
 
     private String description;
     @ManyToOne
+    @JsonIgnore
     private Restaurant restaurant;
 }

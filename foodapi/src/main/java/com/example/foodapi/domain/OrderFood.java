@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 @Table(name = "order_food")
 public class OrderFood {
 
-    @EmbeddedId
-    private OrderFoodId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @ManyToOne
     @MapsId("orderId")

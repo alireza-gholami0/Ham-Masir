@@ -1,4 +1,4 @@
-package com.example.foodapi.repositories;
+package com.example.foodapi.repository;
 
 import com.example.foodapi.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;

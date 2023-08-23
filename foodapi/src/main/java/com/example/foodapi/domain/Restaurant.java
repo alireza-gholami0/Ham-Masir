@@ -1,5 +1,6 @@
 package com.example.foodapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,9 +16,12 @@ public class Restaurant {
     private String address;
     private String phoneNumber;
     @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
     private List<Food> foods;
     @ManyToOne
+    @JsonIgnore
     private User owner;
     @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
     private List<Order> restaurantOrders;
 }

@@ -1,8 +1,8 @@
-package com.example.foodapi.services;
+package com.example.foodapi.service;
 
 import com.example.foodapi.domain.User;
-import com.example.foodapi.exceptions.UserException;
-import com.example.foodapi.repositories.UserRepository;
+import com.example.foodapi.exception.UserException;
+import com.example.foodapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,6 @@
 package com.example.foodapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -13,7 +14,9 @@ public class Order {
     private Long id;
     private LocalDateTime dateTime;
     @ManyToOne
+    @JsonIgnore
     private User client;
     @ManyToOne
+    @JsonIgnore
     private Restaurant restaurant;
 }
