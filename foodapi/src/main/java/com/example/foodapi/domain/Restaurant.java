@@ -3,6 +3,7 @@ package com.example.foodapi.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.NaturalId;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NaturalId
     private String name;
     private String address;
     private String phoneNumber;

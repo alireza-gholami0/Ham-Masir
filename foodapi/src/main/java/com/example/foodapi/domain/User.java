@@ -3,6 +3,7 @@ package com.example.foodapi.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.NaturalId;
 
 import java.util.List;
 
@@ -16,7 +17,9 @@ public class User {
     private String firstName;
     private String lastName;
     private String address;
+    @NaturalId
     private String email;
+    private String password;
     @ManyToOne
     @JsonIgnore
     private Role role;
