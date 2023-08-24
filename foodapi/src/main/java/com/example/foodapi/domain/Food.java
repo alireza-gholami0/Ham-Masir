@@ -13,14 +13,16 @@ public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private double price;
-
     private String description;
+
     @ManyToOne
     @JsonIgnore
     private Restaurant restaurant;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+
+    @OneToMany(mappedBy = "food")
     private List<OrderFood> orderFoods = new ArrayList<>();
 }
+
