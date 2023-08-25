@@ -3,6 +3,7 @@ package com.example.foodapi.service;
 import com.example.foodapi.domain.*;
 import com.example.foodapi.payload.OrderRequest;
 import com.example.foodapi.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class OrderService {
     private FoodRepository foodRepository;
     @Autowired
     private OrderFoodRepository orderFoodRepository;
-
+    @Transactional
     public void saveOrder(String email, String restaurantName, List<OrderRequest> requests) {
         User user = userRepository.getUserByEmail(email);
         if (user != null){
