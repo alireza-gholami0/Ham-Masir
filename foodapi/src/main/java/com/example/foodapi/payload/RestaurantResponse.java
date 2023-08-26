@@ -1,4 +1,4 @@
 package com.example.foodapi.payload;
 
-public record RestaurantResponse(String name, String address, String phoneNumber) {
+public record RestaurantResponse(long id, String name, String address, String phoneNumber) {
 }

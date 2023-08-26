@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.DispatcherTypeRequestMatcher;
 
 
 @Configuration
@@ -27,7 +28,10 @@ public class SecurityConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
             .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests((auth) -> auth.requestMatchers(new AntPathRequestMatcher("/auth/**"))
+            .authorizeHttpRequests((auth) -> auth.requestMatchers(
+                    new AntPathRequestMatcher("/auth/**"),
+                    new AntPathRequestMatcher("/restaurant/menu/**"),
+                    new AntPathRequestMatcher("/restaurant/get-all"))
                     .permitAll()
                     .anyRequest()
                     .authenticated())

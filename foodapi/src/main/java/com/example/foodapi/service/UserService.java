@@ -1,7 +1,6 @@
 package com.example.foodapi.service;
 
 import com.example.foodapi.domain.User;
-import com.example.foodapi.exception.UserException;
 import com.example.foodapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,7 +17,7 @@ public class UserService{
     }
     public User getUserById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new UserException("User not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
     public List<User> getAllUsers() {
@@ -33,7 +32,7 @@ public class UserService{
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
-            throw new UserException("User not found with id: " + id);
+            throw new RuntimeException("User not found with id: " + id);
         }
     }
 }

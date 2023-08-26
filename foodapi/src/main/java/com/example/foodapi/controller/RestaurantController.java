@@ -1,10 +1,15 @@
 package com.example.foodapi.controller;
 
+import com.example.foodapi.config.CurrentUser;
+import com.example.foodapi.domain.User;
 import com.example.foodapi.payload.FoodResponse;
 import com.example.foodapi.payload.RestaurantRequest;
 import com.example.foodapi.payload.RestaurantResponse;
 import com.example.foodapi.service.RestaurantService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,20 +19,23 @@ import java.util.List;
 public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
-    @GetMapping("/getall")
-    public List<RestaurantResponse> getAll(){
-        return restaurantService.getAllRestaurant();
+    @GetMapping("/get-all")
+    public ResponseEntity<List<RestaurantResponse>> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getAllRestaurant());
     }
-    @GetMapping("/menu/{name}")
-    public List<FoodResponse> getMenu(@PathVariable String name){
-        return restaurantService.getRestaurantMenu(name);
+    @GetMapping("/menu/{id}")
+    public ResponseEntity<List<FoodResponse>> getMenu(@PathVariable long id){
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getRestaurantMenu(id));
     }
     @PostMapping("/add")
-    public void add(@RequestBody RestaurantRequest request){
-        restaurantService.addRestaurant(request);
+    @RolesAllowed("ROLE_OWNER")
+    public ResponseEntity<RestaurantResponse> addOwner(@RequestBody RestaurantRequest request, @CurrentUser User currentUser ){
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.addRestaurant(request, currentUser));
     }
-    @DeleteMapping("/delete/{email}/{name}")
-    public void delete(@PathVariable String email, @PathVariable String name){
-        restaurantService.deleteRestaurant(email,name);
+    @DeleteMapping("/delete/{id}")
+    @RolesAllowed("ROLE_OWNER")
+    public ResponseEntity<RestaurantResponse> delete(@PathVariable long id, @CurrentUser User currentUser){
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.deleteRestaurant(id, currentUser));
     }
+
 }

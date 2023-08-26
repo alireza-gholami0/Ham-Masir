@@ -1,7 +1,6 @@
 package com.example.foodapi.config;
 
 import com.example.foodapi.domain.User;
-import com.example.foodapi.exception.CustomException;
 import com.example.foodapi.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -80,7 +79,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         User userDetails;
         Claims claims = jwtService.parseClaims(token);
         String subject = (String) claims.get(Claims.SUBJECT);
-        userDetails = userRepository.findByEmail(subject).orElseThrow(()-> new CustomException("User not found"));
+        userDetails = userRepository.findByEmail(subject).orElseThrow(()-> new RuntimeException("User not found"));
         return userDetails;
     }
 }
