@@ -1,4 +1,4 @@
 package com.example.foodapi.payload;
 
-public record FoodResponse(String name, double price, String description) {
+public record FoodResponse(long id, String name, double price, String description) {
 }

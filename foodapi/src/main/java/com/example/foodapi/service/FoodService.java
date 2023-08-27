@@ -4,13 +4,14 @@ import com.example.foodapi.domain.Food;
 import com.example.foodapi.domain.Restaurant;
 import com.example.foodapi.domain.User;
 import com.example.foodapi.payload.AddFoodRequest;
-import com.example.foodapi.payload.DeleteFoodRequest;
 import com.example.foodapi.payload.EditPriceFoodRequest;
+import com.example.foodapi.payload.FoodResponse;
 import com.example.foodapi.repository.FoodRepository;
 import com.example.foodapi.repository.RestaurantRepository;
-import com.example.foodapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class FoodService {
@@ -18,56 +19,43 @@ public class FoodService {
     private FoodRepository foodRepository;
     @Autowired
     private RestaurantRepository restaurantRepository;
-    @Autowired
-    private UserRepository userRepository;
-
-    public void addFood(String email, AddFoodRequest request) {
-        User user = userRepository.getUserByEmail(email);
-        Restaurant restaurant = restaurantRepository.findByName(request.restaurantName());
-        if (user != null && restaurant != null){
-            if (user.getRole().getName().equals("OWNER") && restaurant.getOwner().equals(user)){
-                Food food = new Food();
-                food.setName(request.foodName());
-                food.setDescription(request.description());
-                food.setPrice(request.price());
-                food.setRestaurant(restaurant);
-                foodRepository.save(food);
-            }
-            else throw new RuntimeException("You do not have access to this section");
+    public FoodResponse addFood(User user, AddFoodRequest request) {
+        Restaurant restaurant = restaurantRepository.findById(request.restaurantId()).orElseThrow(()->
+                new RuntimeException("Restaurant not found"));
+        if (Objects.equals(restaurant.getOwner().getId(), user.getId())){
+            Food food = Food.builder()
+                    .name(request.foodName())
+                    .description(request.description())
+                    .price(request.price())
+                    .restaurant(restaurant)
+                    .build();
+            foodRepository.save(food);
+            return new FoodResponse(food.getId(), food.getName(), food.getPrice(), food.getDescription());
         }
-        else throw new RuntimeException("User or Restaurant not found");
+        else throw new RuntimeException("You do not have access to this section");
+
     }
 
-    public void editFoodPrice(String email, EditPriceFoodRequest request) {
-        User user = userRepository.getUserByEmail(email);
-        Restaurant restaurant = restaurantRepository.findByName(request.restaurantName());
-        Food food = foodRepository.getFoodByNameAndRestaurant(request.foodName(),restaurant);
-        if (user != null && restaurant != null){
-            if (user.getRole().getName().equals("OWNER") && restaurant.getOwner().equals(user)){
-                if(food != null){
-                    food.setPrice(request.price());
-                    foodRepository.save(food);
-                }
-                else throw new RuntimeException("Food not found");
-            }
-            else throw new RuntimeException("You do not have access to this section");
+    public FoodResponse editFoodPrice(User user, EditPriceFoodRequest request) {
+        Restaurant restaurant = restaurantRepository.findById(request.restaurantId()).orElseThrow(()->
+                new RuntimeException("Restaurant not found"));
+        Food food = foodRepository.findById(request.foodId()).orElseThrow(()->
+                new RuntimeException("Food not found"));
+        if(Objects.equals(restaurant.getOwner().getId(), user.getId())){
+            food.setPrice(request.price());
+            foodRepository.save(food);
+            return new FoodResponse(food.getId(), food.getName(), food.getPrice(), food.getDescription());
         }
-        else throw new RuntimeException("User or Restaurant not found");
+        else throw new RuntimeException("You do not have access to this section");
     }
 
-    public void deleteFood(String email, DeleteFoodRequest request) {
-        User user = userRepository.getUserByEmail(email);
-        Restaurant restaurant = restaurantRepository.findByName(request.restaurantName());
-        Food food = foodRepository.getFoodByNameAndRestaurant(request.foodName(),restaurant);
-        if (user != null && restaurant != null){
-            if (user.getRole().getName().equals("OWNER") && restaurant.getOwner().equals(user)){
-                if(food != null){
-                    foodRepository.delete(food);
-                }
-                else throw new RuntimeException("Food not found");
-            }
-            else throw new RuntimeException("You do not have access to this section");
+    public FoodResponse deleteFood(User user, long id) {
+        Food food = foodRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Food not found"));
+        if (Objects.equals(food.getRestaurant().getOwner().getId(), user.getId())){
+            foodRepository.delete(food);
+            return new FoodResponse(food.getId(), food.getName(), food.getPrice(), food.getDescription());
         }
-        else throw new RuntimeException("User or Restaurant not found");
+        else throw new RuntimeException("You do not have access to this section");
     }
 }
