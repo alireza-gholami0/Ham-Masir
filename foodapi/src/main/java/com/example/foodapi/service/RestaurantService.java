@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class RestaurantService {
@@ -28,7 +29,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(()->new RuntimeException("Restaurant not found"));
         List<FoodResponse> menu = new ArrayList<>();
         for (Food food:restaurant.getFoods()) {
-            menu.add(new FoodResponse(food.getName(),food.getPrice(),food.getDescription()));
+            menu.add(new FoodResponse(food.getId(), food.getName(),food.getPrice(),food.getDescription()));
         }
         return menu;
     }
@@ -45,7 +46,7 @@ public class RestaurantService {
 
     public RestaurantResponse deleteRestaurant(long id, User user) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant not found"));
-        if (restaurant.getOwner().equals(user)){
+        if (Objects.equals(restaurant.getOwner().getId(), user.getId())){
             restaurantRepository.delete(restaurant);
             return new RestaurantResponse(restaurant.getId(),restaurant.getName(),restaurant.getAddress(),restaurant.getPhoneNumber());
         }
