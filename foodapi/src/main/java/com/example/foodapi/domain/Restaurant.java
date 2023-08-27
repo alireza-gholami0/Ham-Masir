@@ -20,7 +20,7 @@ public class Restaurant {
     private String name;
     private String address;
     private String phoneNumber;
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Food> foods;
     @ManyToOne

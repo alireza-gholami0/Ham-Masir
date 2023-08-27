@@ -45,13 +45,10 @@ public class RestaurantService {
 
     public RestaurantResponse deleteRestaurant(long id, User user) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant not found"));
-        if (restaurant != null){
-            if (restaurant.getOwner().equals(user)){
-                restaurantRepository.delete(restaurant);
-                return new RestaurantResponse(restaurant.getId(),restaurant.getName(),restaurant.getAddress(),restaurant.getPhoneNumber());
-            }
-            else throw new RuntimeException("You do not have access to this section");
+        if (restaurant.getOwner().equals(user)){
+            restaurantRepository.delete(restaurant);
+            return new RestaurantResponse(restaurant.getId(),restaurant.getName(),restaurant.getAddress(),restaurant.getPhoneNumber());
         }
-        else throw new RuntimeException("Restaurant not found");
+        else throw new RuntimeException("You do not have access to this section");
     }
 }
