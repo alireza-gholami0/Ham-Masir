@@ -33,10 +33,10 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private RoleType role;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Restaurant> ownedRestaurant;
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Order> userOrders;
 
