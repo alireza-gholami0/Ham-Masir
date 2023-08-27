@@ -2,6 +2,7 @@ package com.example.foodapi.service;
 
 import com.example.foodapi.domain.*;
 import com.example.foodapi.payload.OrderRequest;
+import com.example.foodapi.payload.OrderResponse;
 import com.example.foodapi.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,32 +25,27 @@ public class OrderService {
     @Autowired
     private OrderFoodRepository orderFoodRepository;
     @Transactional
-    public void saveOrder(String email, String restaurantName, List<OrderRequest> requests) {
-        User user = userRepository.getUserByEmail(email);
-        if (user != null){
-            Restaurant restaurant = restaurantRepository.findByName(restaurantName);
-            if (restaurant != null){
-                Order order = new Order();
-                order.setClient(user);
-                order.setRestaurant(restaurant);
-                order.setDateTime(LocalDateTime.now());
-                orderRepository.save(order);
-                requests.forEach(x->{
-                    OrderFood orderFood = new OrderFood();
-                    orderFood.setOrder(order);
-                    orderFood.setFood(foodRepository.getFoodByNameAndRestaurant(x.foodName(),restaurant));
-                    if (orderFood.getFood() == null){
-                        throw new RuntimeException(x.foodName() + " Not found");
-                    }
-                    else {
-                        orderFood.setQuantity(x.quantity());
-                        orderFoodRepository.save(orderFood);
-                    }
-                });
-            }
-            else throw new RuntimeException(restaurantName + " Not found");
-        }
-        else throw new RuntimeException(email + " Not found");
-
+    public List<OrderResponse> saveOrder(User user, long restaurantId, List<OrderRequest> requests) {
+        List<OrderResponse> responses = new ArrayList<>();
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(()->
+                new RuntimeException("Restaurant not found"));
+        Order order = Order.builder()
+                .client(user)
+                .dateTime(LocalDateTime.now())
+                .restaurant(restaurant)
+                .build();
+        orderRepository.save(order);
+        requests.forEach(x->{
+            Food food = foodRepository.findById(x.id()).orElseThrow(()->
+                    new RuntimeException("Food not found"));
+            OrderFood orderFood = OrderFood.builder()
+                    .food(food)
+                    .order(order)
+                    .quantity(x.quantity())
+                    .build();
+            orderFoodRepository.save(orderFood);
+            responses.add(new OrderResponse(x.id(),x.quantity()));
+        });
+        return responses;
     }
 }
