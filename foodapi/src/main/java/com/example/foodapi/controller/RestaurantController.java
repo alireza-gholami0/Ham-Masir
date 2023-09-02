@@ -19,9 +19,11 @@ import java.util.List;
 public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
-    @GetMapping("/get-all")
-    public ResponseEntity<List<RestaurantDTO>> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getAllRestaurant());
+    @GetMapping("/get")
+    public ResponseEntity<List<RestaurantDTO>> getRestaurants(
+            @RequestParam(name = "name", required = false) String name, @RequestParam(name = "city", required = false) String city, @RequestParam(name = "address", required = false) String address
+    ){
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getRestaurants(name,city,address));
     }
     @GetMapping("/menu/{id}")
     public ResponseEntity<List<FoodDTO>> getMenu(@PathVariable long id){
@@ -29,6 +31,7 @@ public class RestaurantController {
     }
     @PostMapping("/add")
     @RolesAllowed("ROLE_OWNER")
+
     public ResponseEntity<RestaurantDTO> addOwner(@RequestBody AddRestaurantRequestDTO request, @AuthenticationPrincipal User currentUser ){
         return ResponseEntity.status(HttpStatus.OK).body(restaurantService.addRestaurant(request, currentUser));
     }
@@ -37,5 +40,4 @@ public class RestaurantController {
     public ResponseEntity<RestaurantDTO> delete(@PathVariable long id, @AuthenticationPrincipal User currentUser){
         return ResponseEntity.status(HttpStatus.OK).body(restaurantService.deleteRestaurant(id, currentUser));
     }
-
 }

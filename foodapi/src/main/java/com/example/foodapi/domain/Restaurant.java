@@ -23,6 +23,8 @@ public class Restaurant {
     private String address;
     @Column(name = "phonenumber")
     private String phoneNumber;
+    @Column(name = "city")
+    private String city;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Food> foods;
     @ManyToOne

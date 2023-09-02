@@ -8,7 +8,9 @@ import com.example.foodapi.mapper.MapStructFood;
 import com.example.foodapi.mapper.MapStructRestaurant;
 import com.example.foodapi.dto.AddRestaurantRequestDTO;
 import com.example.foodapi.repository.RestaurantRepository;
+import com.example.foodapi.repository.specification.RestaurantSpecifications;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +22,9 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
     private MapStructRestaurant mapStructRestaurant;
     private MapStructFood mapStructFood;
-    public List<RestaurantDTO> getAllRestaurant(){
-        return mapStructRestaurant.RESTAURANT_DTOS(restaurantRepository.findAll());
+    public List<RestaurantDTO> getRestaurants(String name, String city, String address){
+        Specification<Restaurant> spec = RestaurantSpecifications.searchByFilters(name, city, address);
+        return mapStructRestaurant.RESTAURANT_DTOS(restaurantRepository.findAll(spec));
     }
     public List<FoodDTO>getRestaurantMenu(long id){
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(()->new RuntimeException("Restaurant not found"));
@@ -33,6 +36,7 @@ public class RestaurantService {
                 .name(request.name())
                 .address(request.address())
                 .phoneNumber(request.phone_number())
+                .city(request.city())
                 .owner(user)
                 .build();
         restaurant.setOwner(user);
