@@ -2,10 +2,7 @@ package com.example.foodapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,24 +11,25 @@ import java.util.List;
 import java.util.Map;
 
 @Entity
-@Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
+@Setter
+@Getter
 @Table(name = "order_table")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
     @ManyToOne
-    @JsonIgnore
+    @JoinColumn(name = "client_id")
     private User client;
 
     @ManyToOne
-    @JsonIgnore
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "order")

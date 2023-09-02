@@ -1,8 +1,7 @@
 package com.example.foodapi.controller;
 
 
-import com.example.foodapi.domain.User;
-import com.example.foodapi.payload.UserResponse;
+import com.example.foodapi.dto.UserDTO;
 import com.example.foodapi.service.UserService;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +23,16 @@ public class UserController {
 //    }
     @GetMapping("/get-all")
     @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<List<UserResponse>> getUsers() {
+    public ResponseEntity<List<UserDTO>> getUsers() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
     }
     @GetMapping("/get/{id}")
     @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<UserResponse> getUsers(@PathVariable long id) {
+    public ResponseEntity<UserDTO> getUsers(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserById(id));
     }
     @DeleteMapping("/delete/{id}")
     @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<UserResponse> deleteUser(@PathVariable long id){
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable long id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.deleteUser(id));    }
 }

@@ -2,30 +2,30 @@ package com.example.foodapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@RequiredArgsConstructor
+@Setter
+@Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "foodId")
     private Long id;
-
+    @Column(name = "foodName")
     private String name;
+    @Column(name = "price")
     private double price;
+    @Column(name = "description")
     private String description;
-
     @ManyToOne
-    @JsonIgnore
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "food")

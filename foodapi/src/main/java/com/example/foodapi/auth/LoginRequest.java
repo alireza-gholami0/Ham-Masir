@@ -1,6 +1,7 @@
 package com.example.foodapi.auth;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.Data;
 @Builder
-public record LoginRequest(String email, String password) {}
+public record LoginRequest(@NotNull @NotBlank String email, @NotNull @NotBlank String password) {}

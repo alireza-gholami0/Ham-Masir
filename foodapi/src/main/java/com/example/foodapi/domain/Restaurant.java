@@ -8,23 +8,25 @@ import org.hibernate.annotations.NaturalId;
 import java.util.List;
 
 @Entity
-@Data
+@RequiredArgsConstructor
+@Setter
+@Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NaturalId
+    @Column(name = "name")
     private String name;
+    @Column(name = "address")
     private String address;
+    @Column(name = "phonenumber")
     private String phoneNumber;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Food> foods;
     @ManyToOne
-    @JsonIgnore
+    @JoinColumn(name = "owner_id")
     private User owner;
     @OneToMany(mappedBy = "restaurant")
     @JsonIgnore

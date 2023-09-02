@@ -1,10 +1,11 @@
 package com.example.foodapi.service;
 
 import com.example.foodapi.domain.*;
-import com.example.foodapi.payload.OrderRequest;
-import com.example.foodapi.payload.OrderResponse;
+import com.example.foodapi.dto.OrderFoodDTO;
+import com.example.foodapi.mapper.MapStructOrderFood;
 import com.example.foodapi.repository.*;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class OrderService {
-    @Autowired
     private OrderRepository orderRepository;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private RestaurantRepository restaurantRepository;
-    @Autowired
     private FoodRepository foodRepository;
-    @Autowired
     private OrderFoodRepository orderFoodRepository;
+    private MapStructOrderFood mapStructOrderFood;
     @Transactional
-    public List<OrderResponse> saveOrder(User user, long restaurantId, List<OrderRequest> requests) {
-        List<OrderResponse> responses = new ArrayList<>();
+    public List<OrderFoodDTO> saveOrder(User user, long restaurantId, List<OrderFoodDTO> requests) {
+        List<OrderFoodDTO> responses = new ArrayList<>();
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(()->
                 new RuntimeException("Restaurant not found"));
         Order order = Order.builder()
@@ -36,15 +34,12 @@ public class OrderService {
                 .build();
         orderRepository.save(order);
         requests.forEach(x->{
-            Food food = foodRepository.findById(x.id()).orElseThrow(()->
+            Food food = foodRepository.findById(x.foodId()).orElseThrow(()->
                     new RuntimeException("Food not found"));
-            OrderFood orderFood = OrderFood.builder()
-                    .food(food)
-                    .order(order)
-                    .quantity(x.quantity())
-                    .build();
+            OrderFood orderFood = mapStructOrderFood.ORDER_FOOD(x);
+            orderFood.setOrder(order);
             orderFoodRepository.save(orderFood);
-            responses.add(new OrderResponse(x.id(),x.quantity()));
+            responses.add(new OrderFoodDTO(x.foodId(),x.quantity()));
         });
         return responses;
     }
