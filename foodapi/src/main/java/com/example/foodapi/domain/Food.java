@@ -1,6 +1,5 @@
 package com.example.foodapi.domain;
 
-import com.example.foodapi.view.FoodView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +13,7 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor
-public class Food implements FoodView {
+public class Food{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "foodId")

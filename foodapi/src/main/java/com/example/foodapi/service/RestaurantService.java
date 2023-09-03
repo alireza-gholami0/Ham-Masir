@@ -10,7 +10,6 @@ import com.example.foodapi.dto.AddRestaurantRequestDTO;
 import com.example.foodapi.repository.FoodRepository;
 import com.example.foodapi.repository.RestaurantRepository;
 import com.example.foodapi.repository.specification.RestaurantSpecifications;
-import com.example.foodapi.view.FoodView;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -24,15 +23,11 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
     private MapStructRestaurant mapStructRestaurant;
     private FoodRepository foodRepository;
-    private MapStructFood mapStructFood;
     public List<RestaurantDTO> getRestaurants(String name, String city, String address){
-        Specification<RestaurantDTO> spec = RestaurantSpecifications.searchByFilters(name, city, address);
-//        return mapStructRestaurant.RESTAURANT_DTOS(restaurantRepository.findAll(spec,RestaurantDTO.class));
-        return restaurantRepository.findAll(spec,RestaurantDTO.class);
+        Specification<Restaurant> spec = RestaurantSpecifications.searchByFilters(name, city, address);
+        return mapStructRestaurant.RESTAURANT_DTOS(restaurantRepository.findAll(spec));
     }
     public List<FoodDTO> getRestaurantMenu(long id){
-//        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(()->new RuntimeException("Restaurant not found"));
-//        return mapStructFood.FOOD_DTO_LIST(foodRepository.findByRestaurant(id));
         return foodRepository.findByRestaurant(id, FoodDTO.class);
     }
 

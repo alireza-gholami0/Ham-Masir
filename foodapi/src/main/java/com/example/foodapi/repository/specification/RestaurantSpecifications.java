@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 
 public class RestaurantSpecifications {
-    public static Specification<RestaurantDTO> searchByFilters(String name, String city, String address) {
+    public static Specification<Restaurant> searchByFilters(String name, String city, String address) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
