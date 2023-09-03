@@ -1,12 +1,13 @@
 package com.example.foodapi.repository.specification;
 
 import com.example.foodapi.domain.Restaurant;
+import com.example.foodapi.dto.RestaurantDTO;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 
 public class RestaurantSpecifications {
-    public static Specification<Restaurant> searchByFilters(String name, String city, String address) {
+    public static Specification<RestaurantDTO> searchByFilters(String name, String city, String address) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 

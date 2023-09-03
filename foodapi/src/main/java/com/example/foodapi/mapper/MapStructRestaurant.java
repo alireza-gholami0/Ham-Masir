@@ -10,10 +10,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 
 public interface MapStructRestaurant {
-    @Mapping(source = "id",target = "restaurantId")
+    @Mapping(source = "id",target = "id")
     RestaurantDTO RESTAURANT_DTO (Restaurant restaurant);
-    @Mapping(source = "id",target = "restaurantId")
+    @Mapping(source = "id",target = "id")
     List<RestaurantDTO> RESTAURANT_DTOS (List<Restaurant> restaurants);
-    @Mapping(source = "restaurantId",target = "id")
+    @Mapping(source = "id",target = "id")
     Restaurant RESTAURANT (RestaurantDTO restaurantDTO);
 }

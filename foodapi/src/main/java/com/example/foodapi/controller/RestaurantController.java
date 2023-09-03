@@ -5,6 +5,7 @@ import com.example.foodapi.dto.FoodDTO;
 import com.example.foodapi.dto.RestaurantDTO;
 import com.example.foodapi.dto.AddRestaurantRequestDTO;
 import com.example.foodapi.service.RestaurantService;
+import com.example.foodapi.view.FoodView;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
