@@ -28,7 +28,7 @@ public class RestaurantController {
     }
     @GetMapping("/get/catch")
     public ResponseEntity<List<RestaurantCacheInitializer.CacheData>> getCatch(){
-        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getCatch());
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getCache());
     }
     @GetMapping("/menu/{id}")
     public ResponseEntity<List<FoodDTO>> getMenu(@PathVariable long id){

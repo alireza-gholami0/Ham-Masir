@@ -53,7 +53,7 @@ public class RestaurantService {
         }
         else throw new RuntimeException("You do not have access to this section");
     }
-    public List<RestaurantCacheInitializer.CacheData> getCatch(){
+    public List<RestaurantCacheInitializer.CacheData> getCache(){
         return RestaurantCacheInitializer.restaurantSet.stream().toList();
     }
 }
