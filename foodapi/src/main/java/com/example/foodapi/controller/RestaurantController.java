@@ -5,6 +5,7 @@ import com.example.foodapi.dto.FoodDTO;
 import com.example.foodapi.dto.RestaurantDTO;
 import com.example.foodapi.dto.AddRestaurantRequestDTO;
 import com.example.foodapi.service.RestaurantService;
+import com.example.foodapi.service.cache.RestaurantCacheInitializer;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,10 @@ public class RestaurantController {
             @RequestParam(name = "name", required = false) String name, @RequestParam(name = "city", required = false) String city, @RequestParam(name = "address", required = false) String address
     ){
         return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getRestaurants(name,city,address));
+    }
+    @GetMapping("/get/catch")
+    public ResponseEntity<List<RestaurantCacheInitializer.CacheData>> getCatch(){
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getCatch());
     }
     @GetMapping("/menu/{id}")
     public ResponseEntity<List<FoodDTO>> getMenu(@PathVariable long id){

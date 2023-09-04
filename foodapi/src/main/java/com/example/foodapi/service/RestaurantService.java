@@ -10,6 +10,7 @@ import com.example.foodapi.dto.AddRestaurantRequestDTO;
 import com.example.foodapi.repository.FoodRepository;
 import com.example.foodapi.repository.RestaurantRepository;
 import com.example.foodapi.repository.specification.RestaurantSpecifications;
+import com.example.foodapi.service.cache.RestaurantCacheInitializer;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,8 @@ public class RestaurantService {
             return mapStructRestaurant.RESTAURANT_DTO(restaurant);
         }
         else throw new RuntimeException("You do not have access to this section");
+    }
+    public List<RestaurantCacheInitializer.CacheData> getCatch(){
+        return RestaurantCacheInitializer.restaurantSet.stream().toList();
     }
 }
