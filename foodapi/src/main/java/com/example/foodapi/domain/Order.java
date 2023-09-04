@@ -10,6 +10,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NamedEntityGraph(
+        name = "order-entity-graph-with-food-price",
+        attributeNodes = {
+                @NamedAttributeNode(value = "id"),
+                @NamedAttributeNode(value = "orderFoods", subgraph = "orderFood-subgraph"),
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "orderFood-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "quantity"),
+                                @NamedAttributeNode(value = "food", subgraph = "food-subgraph")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "food-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "price")
+                        }
+                )
+        }
+)
+
 @Entity
 @Builder
 @AllArgsConstructor
@@ -20,7 +43,7 @@ import java.util.Map;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column(name = "date_time")
     private LocalDateTime dateTime;
 

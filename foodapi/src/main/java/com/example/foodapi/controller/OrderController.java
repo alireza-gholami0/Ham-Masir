@@ -2,6 +2,7 @@ package com.example.foodapi.controller;
 
 
 import com.example.foodapi.domain.User;
+import com.example.foodapi.dto.OrderDTO;
 import com.example.foodapi.dto.OrderFoodDTO;
 import com.example.foodapi.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,9 @@ public class OrderController {
     @PostMapping("/add/{restaurantId}")
     public ResponseEntity<List<OrderFoodDTO>> saveOrder(@AuthenticationPrincipal User user, @PathVariable long restaurantId, @RequestBody List<OrderFoodDTO> requests){
         return ResponseEntity.status(HttpStatus.OK).body(orderService.saveOrder(user, restaurantId, requests));
+    }
+    @GetMapping("total-price/{id}")
+    public ResponseEntity<OrderDTO> getTotal(@PathVariable long id){
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getTotalPrice(id));
     }
 }

@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Builder
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
-//@Builder
 @Table(name = "order_food")
 public class OrderFood {
     @Id
