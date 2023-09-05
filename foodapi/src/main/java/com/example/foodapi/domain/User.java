@@ -1,5 +1,6 @@
 package com.example.foodapi.domain;
 
+import com.example.foodapi.domain.log.DatabaseLogger;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +20,7 @@ import java.util.List;
 @Table(name = "user_table")
 @Builder
 @AllArgsConstructor
+@EntityListeners(DatabaseLogger.class)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,6 +79,16 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstName + '\'' +
+                ", lastname='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 
 }

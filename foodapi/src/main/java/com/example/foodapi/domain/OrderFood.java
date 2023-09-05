@@ -1,5 +1,6 @@
 package com.example.foodapi.domain;
 
+import com.example.foodapi.domain.log.DatabaseLogger;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Setter
 @Getter
+@EntityListeners(DatabaseLogger.class)
 @Table(name = "order_food")
 public class OrderFood {
     @Id
@@ -24,4 +26,14 @@ public class OrderFood {
     private Food food;
     @Column(name = "quantity")
     private int quantity;
+
+    @Override
+    public String toString() {
+        return "OrderFood{" +
+                "id=" + id +
+                "quantity=" + quantity +
+                ", order_id='='" + order.getId() + '\'' +
+                ", food_id='" + food.getId() + '\'' +
+                '}';
+    }
 }

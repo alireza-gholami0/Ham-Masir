@@ -1,5 +1,6 @@
 package com.example.foodapi.domain;
 
+import com.example.foodapi.domain.log.DatabaseLogger;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,6 +40,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Setter
 @Getter
+@EntityListeners(DatabaseLogger.class)
 @Table(name = "order_table")
 public class Order {
     @Id
@@ -55,7 +57,17 @@ public class Order {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderFood> orderFoods = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", dateTime='" + dateTime + '\'' +
+                ", client_id='" + client.getId() + '\'' +
+                ", restaurant_id='" + restaurant.getId() + '\'' +
+                '}';
+    }
 }
 
