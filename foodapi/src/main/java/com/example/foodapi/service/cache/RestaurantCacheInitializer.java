@@ -32,13 +32,6 @@ public class RestaurantCacheInitializer {
     @Scheduled(fixedRate = 60000)
     @ShellMethod(value = "updateRestaurantCache",key = "rc")
     public void updateRestaurantCache(){
-        cacheAllRestaurants();
-    }
-    @PostConstruct
-    public void init(){
-        restaurantSet = redissonClient.getSet("restaurantsCache", new TypedJsonJacksonCodec(RestaurantDTO.class));
-    }
-    public void cacheAllRestaurants() {
         List<Restaurant> restaurants = restaurantRepository.findAll();
         List<RestaurantDTO> cacheDataList = restaurants.stream()
                 .map(this::convertRestaurantToCacheData)
@@ -46,4 +39,8 @@ public class RestaurantCacheInitializer {
         restaurantSet = redissonClient.getSet("restaurantsCache", new TypedJsonJacksonCodec(RestaurantDTO.class));
         restaurantSet.clear();
         restaurantSet.addAll(cacheDataList);}
+    @PostConstruct
+    public void init(){
+        restaurantSet = redissonClient.getSet("restaurantsCache", new TypedJsonJacksonCodec(RestaurantDTO.class));
+    }
 }
