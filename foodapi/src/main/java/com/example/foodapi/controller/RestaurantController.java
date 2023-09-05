@@ -6,6 +6,7 @@ import com.example.foodapi.dto.entity.RestaurantDTO;
 import com.example.foodapi.dto.RestaurantRequestDTO;
 import com.example.foodapi.service.RestaurantService;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,14 +35,18 @@ public class RestaurantController {
         return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getRestaurantMenu(id));
     }
     @PostMapping("/add")
-    @RolesAllowed("ROLE_OWNER")
-
-    public ResponseEntity<RestaurantDTO> addOwner(@RequestBody RestaurantRequestDTO request, @AuthenticationPrincipal User currentUser ){
+    @RolesAllowed({"ROLE_OWNER", "ROLE_ADMIN"})
+    public ResponseEntity<RestaurantDTO> add(@Valid @RequestBody RestaurantRequestDTO request, @AuthenticationPrincipal User currentUser ){
         return ResponseEntity.status(HttpStatus.OK).body(restaurantService.addRestaurant(request, currentUser));
     }
     @DeleteMapping("/delete/{id}")
-    @RolesAllowed("ROLE_OWNER")
+    @RolesAllowed({"ROLE_OWNER", "ROLE_ADMIN"})
     public ResponseEntity<RestaurantDTO> delete(@PathVariable long id, @AuthenticationPrincipal User currentUser){
         return ResponseEntity.status(HttpStatus.OK).body(restaurantService.deleteRestaurant(id, currentUser));
+    }
+    @PutMapping("/edit/{id}")
+    @RolesAllowed({"ROLE_OWNER", "ROLE_ADMIN"})
+    public ResponseEntity<RestaurantDTO> edit(@PathVariable long id, @AuthenticationPrincipal User currentUser, @RequestBody RestaurantRequestDTO request){
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.editRestaurant(id, currentUser, request));
     }
 }

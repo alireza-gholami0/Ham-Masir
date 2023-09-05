@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface FoodRepository extends JpaRepository<Food,Long> {
-    @Query("select new com.example.foodapi.dto.FoodDTO(f.id,f.name,f.description,f.price) from Food f join f.restaurant r where r.id = :id")
+    @Query("select new com.example.foodapi.dto.entity.FoodDTO(f.id,f.name,f.description,f.price) from Food f join f.restaurant r where r.id = :id")
     <T> List<T> findByRestaurant(@Param("id") Long id, Class<T> type);
 }

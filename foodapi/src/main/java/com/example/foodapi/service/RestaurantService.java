@@ -23,6 +23,9 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
     private MapStructRestaurant mapStructRestaurant;
     private FoodRepository foodRepository;
+    public Restaurant restaurantValidation(long id){
+        return restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant not found"));
+    }
     public List<RestaurantDTO> getRestaurants(String name, String city, String address){
         Specification<Restaurant> spec = RestaurantSpecifications.searchByFilters(name, city, address);
         return mapStructRestaurant.RESTAURANT_DTOS(restaurantRepository.findAll(spec));
@@ -45,8 +48,8 @@ public class RestaurantService {
     }
 
     public RestaurantDTO deleteRestaurant(long id, User user) {
-        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant not found"));
-        if (Objects.equals(restaurant.getOwner().getId(), user.getId())){
+        Restaurant restaurant = restaurantValidation(id);
+        if (Objects.equals(restaurant.getOwner().getId(), user.getId()) || user.getRole().name().equals("ROLE_ADMIN")){
             restaurantRepository.delete(restaurant);
             RestaurantDTO dto = mapStructRestaurant.RESTAURANT_DTO(restaurant);
             RestaurantCacheInitializer.restaurantSet.remove(dto);
@@ -56,5 +59,27 @@ public class RestaurantService {
     }
     public List<RestaurantDTO> getCache(){
         return RestaurantCacheInitializer.restaurantSet.stream().toList();
+    }
+
+    public RestaurantDTO editRestaurant(long id, User currentUser, RestaurantRequestDTO request) {
+        Restaurant restaurant = restaurantValidation(id);
+        RestaurantCacheInitializer.restaurantSet.remove(mapStructRestaurant.RESTAURANT_DTO(restaurant));
+        if (Objects.equals(restaurant.getOwner().getId(), currentUser.getId()) || currentUser.getRole().name().equals("ROLE_ADMIN")){
+            if (request.name() != null){
+                restaurant.setName(request.name());
+            }
+            if (request.address() != null){
+                restaurant.setAddress(request.address());
+            }
+            if (request.city() != null){
+                restaurant.setCity(request.city());
+            }
+            if (request.phone_number() != null){
+                restaurant.setPhoneNumber(request.phone_number());
+            }
+            restaurantRepository.save(restaurant);
+            return mapStructRestaurant.RESTAURANT_DTO(restaurant);
+        }
+        else throw new RuntimeException("You do not have access to this section");
     }
 }

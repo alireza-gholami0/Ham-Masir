@@ -6,6 +6,7 @@ import com.example.foodapi.dto.EditPriceFoodDTO;
 import com.example.foodapi.dto.entity.FoodDTO;
 import com.example.foodapi.service.FoodService;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class FoodController {
     private FoodService foodService;
     @PostMapping("/add")
     @RolesAllowed("ROLE_OWNER")
-    public ResponseEntity<FoodDTO> add(@AuthenticationPrincipal User user, @RequestBody AddFoodDTO request){
+    public ResponseEntity<FoodDTO> add(@AuthenticationPrincipal User user, @Valid @RequestBody AddFoodDTO request){
         return ResponseEntity.status(HttpStatus.OK).body(foodService.addFood(user,request));
     }
     @PutMapping("/edit-price")

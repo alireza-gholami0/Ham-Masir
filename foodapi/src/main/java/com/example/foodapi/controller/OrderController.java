@@ -5,6 +5,7 @@ import com.example.foodapi.domain.User;
 import com.example.foodapi.dto.entity.OrderDTO;
 import com.example.foodapi.dto.entity.OrderFoodDTO;
 import com.example.foodapi.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @PostMapping("/add/{restaurantId}")
-    public ResponseEntity<List<OrderFoodDTO>> saveOrder(@AuthenticationPrincipal User user, @PathVariable long restaurantId, @RequestBody List<OrderFoodDTO> requests){
+    public ResponseEntity<List<OrderFoodDTO>> saveOrder(@AuthenticationPrincipal User user, @PathVariable long restaurantId, @Valid @RequestBody List<OrderFoodDTO> requests){
         return ResponseEntity.status(HttpStatus.OK).body(orderService.saveOrder(user, restaurantId, requests));
     }
     @GetMapping("total-price/{id}")
