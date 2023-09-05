@@ -38,7 +38,9 @@ public class RestaurantCacheInitializer {
                 .toList();
         restaurantSet = redissonClient.getSet("restaurantsCache", new TypedJsonJacksonCodec(RestaurantDTO.class));
         restaurantSet.clear();
-        restaurantSet.addAll(cacheDataList);}
+        restaurantSet.addAll(cacheDataList);
+//        System.out.println(restaurantSet.stream().toList().get(0).name());
+    }
     @PostConstruct
     public void init(){
         restaurantSet = redissonClient.getSet("restaurantsCache", new TypedJsonJacksonCodec(RestaurantDTO.class));

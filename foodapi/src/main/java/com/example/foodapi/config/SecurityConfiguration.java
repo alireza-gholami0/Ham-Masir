@@ -31,7 +31,8 @@ public class SecurityConfiguration {
             .authorizeHttpRequests((auth) -> auth.requestMatchers(
                     new AntPathRequestMatcher("/auth/**"),
                     new AntPathRequestMatcher("/restaurant/menu/**"),
-                    new AntPathRequestMatcher("/restaurant/get"))
+                    new AntPathRequestMatcher("/restaurant/get"),
+                    new AntPathRequestMatcher("/restaurant/get/cache"))
                     .permitAll()
                     .anyRequest()
                     .authenticated())
