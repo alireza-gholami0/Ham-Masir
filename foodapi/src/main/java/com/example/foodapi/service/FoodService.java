@@ -26,7 +26,7 @@ public class FoodService {
     public FoodDTO addFood(User user, AddFoodDTO request) {
         Restaurant restaurant = restaurantRepository.findById(request.restaurantId()).orElseThrow(()->
                 new RuntimeException("Restaurant not found"));
-        if (Objects.equals(restaurant.getOwner().getId(), user.getId())){
+        if (Objects.equals(restaurant.getOwner().getId(), user.getId()) || user.getRole().name().equals("ROLE_ADMIN")){
             Food food = Food.builder()
                     .name(request.foodName())
                     .description(request.description())
@@ -42,7 +42,7 @@ public class FoodService {
 
     public FoodDTO editFood(User user, long id, EditFoodDTO request) {
         Food food = foodValidation(id);
-        if(Objects.equals(food.getRestaurant().getOwner().getId(), user.getId())){
+        if(Objects.equals(food.getRestaurant().getOwner().getId(), user.getId()) || user.getRole().name().equals("ROLE_ADMIN")){
             if (request.foodName() != null){
                 food.setName(request.foodName());
             }
@@ -60,10 +60,14 @@ public class FoodService {
 
     public FoodDTO deleteFood(User user, long id) {
         Food food = foodValidation(id);
-        if (Objects.equals(food.getRestaurant().getOwner().getId(), user.getId())){
+        if (Objects.equals(food.getRestaurant().getOwner().getId(), user.getId())  || user.getRole().name().equals("ROLE_ADMIN")){
             foodRepository.delete(food);
             return mapStructFood.FOOD_DTO(food);
         }
         else throw new RuntimeException("You do not have access to this section");
+    }
+
+    public FoodDTO getFood(long id) {
+        return mapStructFood.FOOD_DTO(foodValidation(id));
     }
 }
