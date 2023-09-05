@@ -1,8 +1,8 @@
 package com.example.foodapi.controller;
 
 import com.example.foodapi.domain.User;
+import com.example.foodapi.dto.EditFoodDTO;
 import com.example.foodapi.dto.AddFoodDTO;
-import com.example.foodapi.dto.EditPriceFoodDTO;
 import com.example.foodapi.dto.entity.FoodDTO;
 import com.example.foodapi.service.FoodService;
 import jakarta.annotation.security.RolesAllowed;
@@ -23,10 +23,10 @@ public class FoodController {
     public ResponseEntity<FoodDTO> add(@AuthenticationPrincipal User user, @Valid @RequestBody AddFoodDTO request){
         return ResponseEntity.status(HttpStatus.OK).body(foodService.addFood(user,request));
     }
-    @PutMapping("/edit-price")
+    @PutMapping("/edit/{id}")
     @RolesAllowed("ROLE_OWNER")
-    public ResponseEntity<FoodDTO> editPrice(@AuthenticationPrincipal User user, @RequestBody EditPriceFoodDTO request){
-        return ResponseEntity.status(HttpStatus.OK).body(foodService.editFoodPrice(user,request));
+    public ResponseEntity<FoodDTO> editPrice(@AuthenticationPrincipal User user, @PathVariable long id, @RequestBody EditFoodDTO request){
+        return ResponseEntity.status(HttpStatus.OK).body(foodService.editFood(user,id,request));
     }
     @DeleteMapping("/delete/{id}")
     @RolesAllowed("ROLE_OWNER")
