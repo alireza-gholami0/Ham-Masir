@@ -49,11 +49,13 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant not found"));
         if (Objects.equals(restaurant.getOwner().getId(), user.getId())){
             restaurantRepository.delete(restaurant);
-            return mapStructRestaurant.RESTAURANT_DTO(restaurant);
+            RestaurantDTO dto = mapStructRestaurant.RESTAURANT_DTO(restaurant);
+            RestaurantCacheInitializer.restaurantSet.remove(dto);
+            return dto;
         }
         else throw new RuntimeException("You do not have access to this section");
     }
-    public List<RestaurantCacheInitializer.CacheData> getCache(){
+    public List<RestaurantDTO> getCache(){
         return RestaurantCacheInitializer.restaurantSet.stream().toList();
     }
 }
