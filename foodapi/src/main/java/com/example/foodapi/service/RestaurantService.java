@@ -20,9 +20,9 @@ import java.util.Objects;
 @Service
 @AllArgsConstructor
 public class RestaurantService {
-    private RestaurantRepository restaurantRepository;
-    private MapStructRestaurant mapStructRestaurant;
-    private FoodRepository foodRepository;
+    private final RestaurantRepository restaurantRepository;
+    private final MapStructRestaurant mapStructRestaurant;
+    private final FoodRepository foodRepository;
     public Restaurant restaurantValidation(long id){
         return restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant not found"));
     }
