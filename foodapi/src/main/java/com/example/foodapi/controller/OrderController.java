@@ -2,8 +2,8 @@ package com.example.foodapi.controller;
 
 
 import com.example.foodapi.domain.User;
-import com.example.foodapi.dto.OrderDTO;
-import com.example.foodapi.dto.OrderFoodDTO;
+import com.example.foodapi.dto.entity.OrderDTO;
+import com.example.foodapi.dto.entity.OrderFoodDTO;
 import com.example.foodapi.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

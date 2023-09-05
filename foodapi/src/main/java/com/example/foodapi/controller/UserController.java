@@ -1,7 +1,7 @@
 package com.example.foodapi.controller;
 
 
-import com.example.foodapi.dto.UserDTO;
+import com.example.foodapi.dto.entity.UserDTO;
 import com.example.foodapi.service.UserService;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;

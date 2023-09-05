@@ -2,11 +2,10 @@ package com.example.foodapi.service;
 
 import com.example.foodapi.domain.Restaurant;
 import com.example.foodapi.domain.User;
-import com.example.foodapi.dto.FoodDTO;
-import com.example.foodapi.dto.RestaurantDTO;
-import com.example.foodapi.mapper.MapStructFood;
+import com.example.foodapi.dto.entity.FoodDTO;
+import com.example.foodapi.dto.entity.RestaurantDTO;
 import com.example.foodapi.mapper.MapStructRestaurant;
-import com.example.foodapi.dto.AddRestaurantRequestDTO;
+import com.example.foodapi.dto.RestaurantRequestDTO;
 import com.example.foodapi.repository.FoodRepository;
 import com.example.foodapi.repository.RestaurantRepository;
 import com.example.foodapi.repository.specification.RestaurantSpecifications;
@@ -32,7 +31,7 @@ public class RestaurantService {
         return foodRepository.findByRestaurant(id, FoodDTO.class);
     }
 
-    public RestaurantDTO addRestaurant(AddRestaurantRequestDTO request, User user){
+    public RestaurantDTO addRestaurant(RestaurantRequestDTO request, User user){
         Restaurant restaurant = Restaurant.builder()
                 .name(request.name())
                 .address(request.address())

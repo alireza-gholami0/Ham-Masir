@@ -1,10 +1,9 @@
 package com.example.foodapi.service;
 
 import com.example.foodapi.domain.User;
-import com.example.foodapi.dto.UserDTO;
+import com.example.foodapi.dto.entity.UserDTO;
 import com.example.foodapi.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

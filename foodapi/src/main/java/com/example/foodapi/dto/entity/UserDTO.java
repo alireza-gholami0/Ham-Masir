@@ -1,4 +1,4 @@
-package com.example.foodapi.dto;
+package com.example.foodapi.dto.entity;
 
 import com.example.foodapi.domain.RoleType;
 import jakarta.validation.constraints.NotBlank;

@@ -1,12 +1,10 @@
 package com.example.foodapi.mapper;
 
 import com.example.foodapi.domain.Food;
-import com.example.foodapi.dto.FoodDTO;
+import com.example.foodapi.dto.entity.FoodDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 @Component

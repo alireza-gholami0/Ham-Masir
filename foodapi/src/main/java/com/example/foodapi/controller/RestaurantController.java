@@ -1,11 +1,10 @@
 package com.example.foodapi.controller;
 
 import com.example.foodapi.domain.User;
-import com.example.foodapi.dto.FoodDTO;
-import com.example.foodapi.dto.RestaurantDTO;
-import com.example.foodapi.dto.AddRestaurantRequestDTO;
+import com.example.foodapi.dto.entity.FoodDTO;
+import com.example.foodapi.dto.entity.RestaurantDTO;
+import com.example.foodapi.dto.RestaurantRequestDTO;
 import com.example.foodapi.service.RestaurantService;
-import com.example.foodapi.service.cache.RestaurantCacheInitializer;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ public class RestaurantController {
     @PostMapping("/add")
     @RolesAllowed("ROLE_OWNER")
 
-    public ResponseEntity<RestaurantDTO> addOwner(@RequestBody AddRestaurantRequestDTO request, @AuthenticationPrincipal User currentUser ){
+    public ResponseEntity<RestaurantDTO> addOwner(@RequestBody RestaurantRequestDTO request, @AuthenticationPrincipal User currentUser ){
         return ResponseEntity.status(HttpStatus.OK).body(restaurantService.addRestaurant(request, currentUser));
     }
     @DeleteMapping("/delete/{id}")

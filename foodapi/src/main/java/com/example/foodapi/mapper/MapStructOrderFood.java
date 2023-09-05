@@ -1,9 +1,7 @@
 package com.example.foodapi.mapper;
 
 import com.example.foodapi.domain.OrderFood;
-import com.example.foodapi.domain.Restaurant;
-import com.example.foodapi.dto.OrderFoodDTO;
-import com.example.foodapi.dto.RestaurantDTO;
+import com.example.foodapi.dto.entity.OrderFoodDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

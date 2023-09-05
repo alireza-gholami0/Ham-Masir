@@ -3,10 +3,10 @@ package com.example.foodapi.service;
 import com.example.foodapi.domain.Food;
 import com.example.foodapi.domain.Restaurant;
 import com.example.foodapi.domain.User;
-import com.example.foodapi.dto.FoodDTO;
+import com.example.foodapi.dto.entity.FoodDTO;
 import com.example.foodapi.mapper.MapStructFood;
-import com.example.foodapi.dto.AddFoodRequestDTO;
-import com.example.foodapi.dto.EditPriceFoodRequestDTO;
+import com.example.foodapi.dto.AddFoodDTO;
+import com.example.foodapi.dto.EditPriceFoodDTO;
 import com.example.foodapi.repository.FoodRepository;
 import com.example.foodapi.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class FoodService {
     private final FoodRepository foodRepository;
     private final RestaurantRepository restaurantRepository;
     private final MapStructFood mapStructFood;
-    public FoodDTO addFood(User user, AddFoodRequestDTO request) {
+    public FoodDTO addFood(User user, AddFoodDTO request) {
         Restaurant restaurant = restaurantRepository.findById(request.restaurantId()).orElseThrow(()->
                 new RuntimeException("Restaurant not found"));
         if (Objects.equals(restaurant.getOwner().getId(), user.getId())){
@@ -37,7 +37,7 @@ public class FoodService {
 
     }
 
-    public FoodDTO editFoodPrice(User user, EditPriceFoodRequestDTO request) {
+    public FoodDTO editFoodPrice(User user, EditPriceFoodDTO request) {
         Restaurant restaurant = restaurantRepository.findById(request.restaurantId()).orElseThrow(()->
                 new RuntimeException("Restaurant not found"));
         Food food = foodRepository.findById(request.foodId()).orElseThrow(()->

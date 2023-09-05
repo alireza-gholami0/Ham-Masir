@@ -2,7 +2,7 @@ package com.example.foodapi.service.cache;
 
 
 import com.example.foodapi.domain.Restaurant;
-import com.example.foodapi.dto.RestaurantDTO;
+import com.example.foodapi.dto.entity.RestaurantDTO;
 import com.example.foodapi.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

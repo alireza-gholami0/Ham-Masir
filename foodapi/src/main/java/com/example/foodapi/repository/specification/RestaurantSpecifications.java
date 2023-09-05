@@ -1,7 +1,6 @@
 package com.example.foodapi.repository.specification;
 
 import com.example.foodapi.domain.Restaurant;
-import com.example.foodapi.dto.RestaurantDTO;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 

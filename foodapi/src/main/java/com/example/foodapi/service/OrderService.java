@@ -1,14 +1,12 @@
 package com.example.foodapi.service;
 
 import com.example.foodapi.domain.*;
-import com.example.foodapi.dto.OrderDTO;
-import com.example.foodapi.dto.OrderFoodDTO;
-import com.example.foodapi.mapper.MapStructOrderFood;
+import com.example.foodapi.dto.entity.OrderDTO;
+import com.example.foodapi.dto.entity.OrderFoodDTO;
 import com.example.foodapi.repository.*;
 import com.example.foodapi.repository.specification.OrderDao;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
