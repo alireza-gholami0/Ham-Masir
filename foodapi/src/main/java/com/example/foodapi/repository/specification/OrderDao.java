@@ -28,10 +28,10 @@ public class OrderDao {
         Root<Order> root = query.from(Order.class);
         entityManager.createEntityGraph(Order.class);
 
-        query.select(cb.prod(
+        query.select(cb.sum(cb.prod(
                 root.get("orderFoods").get("quantity").as(Double.class),
                 root.get("orderFoods").get("food").get("price")
-        ));
+        )));
         query.where(cb.equal(root.get("id"), id));
 
         TypedQuery<Double> typedQuery = entityManager.createQuery(query);

@@ -1,4 +1,9 @@
 package com.example.foodapi.dto.entity;
 
-public record OrderDTO(long id, double totalPrice) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
+
+public record OrderDTO(@NotNull @NotBlank long id, @NotNull @NotBlank List<OrderFoodDTO> orderFoods, @NotNull @NotBlank double totalPrice) {
 }
