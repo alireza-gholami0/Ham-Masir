@@ -7,7 +7,7 @@ import com.example.foodapi.dto.entity.OrderFoodDTO;
 import com.example.foodapi.service.OrderService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,8 +17,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order")
+@AllArgsConstructor
 public class OrderController {
-    @Autowired
     private OrderService orderService;
     @PostMapping("/add/{restaurantId}")
     public ResponseEntity<OrderDTO> saveOrder(@AuthenticationPrincipal User user, @PathVariable long restaurantId, @Valid @RequestBody List<OrderFoodDTO> requests){

@@ -1,6 +1,5 @@
 package com.example.foodapi.repository;
 
-import com.example.foodapi.domain.Order;
 import com.example.foodapi.domain.OrderFood;
 import com.example.foodapi.dto.entity.OrderFoodDTO;
 import org.springframework.data.jpa.repository.JpaRepository;

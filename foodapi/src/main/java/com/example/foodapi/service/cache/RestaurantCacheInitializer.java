@@ -24,7 +24,7 @@ import java.util.List;
 public class RestaurantCacheInitializer {
     private final RedissonClient redissonClient;
     private final RestaurantRepository restaurantRepository;
-    public static RSet<RestaurantDTO> restaurantSet;
+    private RSet<RestaurantDTO> restaurantSet;;
     private RestaurantDTO convertRestaurantToCacheData(Restaurant restaurant) {
         return new RestaurantDTO(restaurant.getId(), restaurant.getName(), restaurant.getCity(),
                 restaurant.getAddress(), restaurant.getPhoneNumber());
@@ -36,13 +36,12 @@ public class RestaurantCacheInitializer {
         List<RestaurantDTO> cacheDataList = restaurants.stream()
                 .map(this::convertRestaurantToCacheData)
                 .toList();
-        restaurantSet = redissonClient.getSet("restaurantsCache", new TypedJsonJacksonCodec(RestaurantDTO.class));
+//        restaurantSet = redissonClient.getSet("restaurantsCache", new TypedJsonJacksonCodec(RestaurantDTO.class));
         restaurantSet.clear();
         restaurantSet.addAll(cacheDataList);
-//        System.out.println(restaurantSet.stream().toList().get(0).name());
     }
-    @PostConstruct
-    public void init(){
-        restaurantSet = redissonClient.getSet("restaurantsCache", new TypedJsonJacksonCodec(RestaurantDTO.class));
-    }
+//    @PostConstruct
+//    public void init(){
+//        restaurantSet = redissonClient.getSet("restaurantsCache", new TypedJsonJacksonCodec(RestaurantDTO.class));
+//    }
 }
