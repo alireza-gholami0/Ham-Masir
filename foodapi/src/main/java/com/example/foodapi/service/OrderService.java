@@ -3,13 +3,11 @@ package com.example.foodapi.service;
 import com.example.foodapi.domain.*;
 import com.example.foodapi.dto.entity.OrderDTO;
 import com.example.foodapi.dto.entity.OrderFoodDTO;
-import com.example.foodapi.mapper.MapStructOrder;
 import com.example.foodapi.repository.*;
 import com.example.foodapi.repository.specification.OrderDao;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,6 @@ public class OrderService {
     private final RestaurantRepository restaurantRepository;
     private final FoodRepository foodRepository;
     private final OrderFoodRepository orderFoodRepository;
-    private final MapStructOrder mapStructOrder;
 
     public Order orderValidation(long id){
         return orderRepository.findById(id)
